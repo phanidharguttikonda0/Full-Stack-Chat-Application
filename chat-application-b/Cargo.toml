@@ -16,3 +16,4 @@ mongodb = "2.7.1"
 actix-web-actors = { version = "4.2.0" }
 actix = "0.13.1"
 futures-util = "0.3.29"
+actix-rt = "2.9.0"

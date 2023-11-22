@@ -22,10 +22,33 @@ pub mod user_models{
         pub(crate) username: String
     }
 
-    #[derive(Serialize, Deserialize)]
+    #[derive(Serialize, Deserialize, Clone)]
     pub struct AddNewUser{
        pub sender: String,
        pub receiver: String,
+    }
+
+
+    #[derive(Serialize, Deserialize, Clone)]
+    pub struct SendChats {
+        pub(crate) username: String,
+        pub(crate) receiver: String,
+        pub message: String,
+        pub timestamp: String
+    }
+
+
+    #[derive(Serialize, Deserialize)]
+    pub struct Document {
+       pub name: String,
+       pub chats: Vec<Vec<Message>>,
+       pub first_message: bool,
+    }
+
+    #[derive(Serialize, Deserialize)]
+    pub struct Message {
+       pub message: String,
+       pub timestamp: String,
     }
 
 }

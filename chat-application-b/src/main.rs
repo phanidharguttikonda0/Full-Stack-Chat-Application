@@ -2,11 +2,15 @@
 mod user_handlers;
 mod user_models;
 mod user_services;
+mod chat_handlers;
+mod chat_services;
 
 use actix_cors::Cors;
-use actix_web::{App, HttpServer};
+use actix_web::{App, HttpServer, web};
 
 use user_handlers::user_handlers::*;
+
+use chat_handlers::chat_handlers::* ;
 
 
 #[actix::main]
@@ -20,6 +24,7 @@ async fn main() -> std::io::Result<()>{
             .service(get_users)
             .service(is_user_exists)
             .service(new_chat)
+            .route("/chat", web::get().to(websocket_handler))
 
 
     }).bind(("127.0.0.1", 8080)).unwrap().run().await

@@ -5,6 +5,7 @@ pub mod user_handlers {
     use actix_web::{get, HttpRequest, HttpResponse, post, Responder, web};
     use actix_web::web::Json;
     use serde::de::Unexpected::Str;
+    use crate::chat_services::chat_services::create_document;
     use crate::user_models::*;
     use crate::user_models::user_models::{AddNewUser, SignIn, SignUp, User};
     use crate::user_services::user_services::{add_user_to_chats, check_sign_in, check_sign_up, does_username_exists, get_user_chats, is_already_in_chatbox, sign_up_data};
@@ -55,6 +56,13 @@ pub mod user_handlers {
         // a new user will be added
         add_user_to_chats(String::from(&data.sender),String::from( &data.receiver)).await;
         add_user_to_chats(String::from(&data.receiver), String::from(&data.sender)).await;
+        // creation of the document
+        create_document(data.clone()).await ;
+        // now we are going to create to the receiver end
+        create_document(AddNewUser{
+            sender : String::from(&data.receiver),
+            receiver: String::from(&data.sender)
+        }) ;
         HttpResponse::Ok().body("true")
     }
 

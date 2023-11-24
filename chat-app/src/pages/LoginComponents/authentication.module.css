@@ -1,0 +1,59 @@
+.sign{
+    width: 100%;
+    height: 100vh;
+    background-color: #2B2A4C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5%;
+    border: 2px solid #0ff;
+    border-radius: 12px;
+}
+
+.main input {
+    padding: 7px 18px;
+    font-size: large;
+    color: white;
+    background-color: transparent;
+    border: 2px solid #0ff;
+    border-radius: 7px;
+    margin: 12px;
+    outline-color: transparent;
+}
+
+.main .btn {
+    margin: 12px;
+    padding: 5px 12px;
+    font-size: medium;
+    background-color: transparent;
+    border-radius: 7px;
+    border: 2px solid #0ff;
+    cursor: pointer;
+    color: white;
+}
+
+.link {
+    background-color: transparent;
+    border-color: transparent;
+    font-size: medium;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+}
+
+.link:hover {
+    color: #0ff;
+    font-size: large;
+    cursor: pointer;
+}
+
+.btn:hover {
+    border-color: transparent;
+    background-color: white;
+    color: black;
+}

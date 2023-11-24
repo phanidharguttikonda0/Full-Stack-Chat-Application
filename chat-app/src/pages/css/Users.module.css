@@ -1,0 +1,51 @@
+.users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3%;
+    width: 50%;
+    max-height: 300px; /* Set a maximum height or adjust as needed */
+    overflow: hidden;
+}
+
+.user{
+    padding: 1%;
+    border: 2px solid #0ff;
+    border-radius: 7px;
+    margin: 5%;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Apply this style to the container of your React component */
+
+  
+  /* Enable vertical scrollbar when content overflows */
+  .users:hover {
+    overflow-y: auto;
+  }
+  
+  /* Customize scrollbar styles for WebKit browsers */
+  .users::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
+  }
+  
+  .users::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.7); /* Transparent gray color for the thumb */
+    border-radius: 6px; /* Rounded corners for the thumb */
+  }
+  
+  .users::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent background for the track */
+  }
+  
+  /* Hide the scrollbar in Firefox */
+  .users {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  
+  .users:hover {
+    scrollbar-color: rgba(128, 128, 128, 0.7) transparent;
+  }

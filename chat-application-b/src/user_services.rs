@@ -41,10 +41,11 @@ pub mod user_services {
                 match result1 {
                     Some(res) => {
 
-                        let result2 = sqlx::query("SELECT EXISTS (SELECT 1 FROM user_credentials WHERE mobile = $1)")
+                        let result2 = sqlx::query("SELECT EXISTS (SELECT 1 FROM user_credentials WHERE mobilenumber = $1)")
                             .bind(&data.mobile)
                             .fetch_optional(&con)
                             .await.unwrap() ;
+                        con.close().await ;
 
                         match result2 {
                             Some(res) => {
@@ -72,6 +73,8 @@ pub mod user_services {
     // if both username and password are correct then we will return true
     pub async fn check_sign_in(data: SignIn) -> (bool) {
 
+        println!("The sign-in check was started") ;
+
         let con = create_connection(String::from("chatapp")).await ;
 
         let result = sqlx::query("SELECT EXISTS (SELECT 1 FROM user_credentials WHERE username = $1)")
@@ -79,15 +82,19 @@ pub mod user_services {
             .fetch_optional(&con)
             .await .unwrap();
 
+
         match result {
 
             Some(res) => {
 
-               let result:String = sqlx::query("SELECT PASSWORD FROM FROM USER_CREDENTIALS WHERE \
+               let result:String = sqlx::query("SELECT PASSWORD FROM USER_CREDENTIALS WHERE \
                USERNAME = $1")
                    .bind(&data.username)
                    .fetch_one(&con)
                    .await.unwrap().get("password") ;
+
+                println!("The Password was {}", result) ;
+                con.close().await ;
 
                 if result == String::from(&data.password) {
                     return true
@@ -111,7 +118,7 @@ pub mod user_services {
 
 
         // the below returning clause is used for returning the inserted row
-        let result = sqlx::query( "INSERT INTO user_credentials (email, mobile, username, password)
+        let result = sqlx::query( "INSERT INTO user_credentials (email, mobilenumber, username, password)
          VALUES ($1, $2, $3, $4)")
             .bind(&data.email)
             .bind(&data.mobile)
@@ -130,6 +137,7 @@ pub mod user_services {
                 println!("Error Ocurred, The Error was {}", err) ;
             }
         }
+        con.close().await ;
 
     }
 
@@ -150,11 +158,12 @@ pub mod user_services {
         for row in rows {
             values.push(row.get("username")) ;
         }
+        con.close().await ;
 
         values
     }
 
-    async fn create_users_table(username: String) {
+    pub async fn create_users_table(username: String) {
 
         let con = create_connection(String::from("chatapp")).await ;
 
@@ -167,6 +176,7 @@ pub mod user_services {
                 println!("Failed to create the table due to {}", err) ;
             }
         }
+        con.close().await ;
     }
 
 
@@ -179,7 +189,7 @@ pub mod user_services {
         let result = sqlx::query(&format!("insert into {} (username) Values ($1)", &username))
             .bind(&receiver)
             .execute(&con).await ;
-
+        con.close().await ;
         match result {
             Ok(val) => {
                 println!("Successfully added the user ") ;
@@ -202,7 +212,7 @@ pub mod user_services {
             .fetch_optional(&con)
             .await.unwrap() ;
 
-
+        con.close().await ;
         match result {
             Some(res)=> true,
             None => false
@@ -214,16 +224,25 @@ pub mod user_services {
 
         let con = create_connection(String::from("chatapp")).await ;
 
-        let result = sqlx::query(&format!("SELECT EXISTS (SELECT 1 FROM {} WHERE username = $1)", &username))
+        let result = sqlx::query(&format!("SELECT * FROM {} where username = $1", &username))
             .bind(&receiver)
-            .fetch_optional(&con)
-            .await.unwrap() ;
-
+            .fetch_one(&con)
+            .await ;
 
         match result {
-            Some(res)=> true,
-            None => false
+            Ok(res) => {
+
+                let user:String = res.get("username") ;
+                println!("The user was {}", user) ;
+
+                true
+
+            }
+            Err(err) => {
+                false
+            }
         }
+
     }
 
 }

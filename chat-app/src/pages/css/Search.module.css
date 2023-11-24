@@ -1,0 +1,32 @@
+.search{
+    margin-top: 12px;
+    background-color: transparent;
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.search button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 2px solid #8E56FF;
+    border-radius: 0px 7px 7px 0px;
+    padding: 5px 12px;
+}
+
+.search input {
+    background-color: transparent;
+    color: white;
+    padding: 5px 12px;
+    outline: #8E56FF;
+    border: 2px solid #8E56FF;
+}
+
+.search button:hover {
+    background-color: white;
+    color: #8E56FF;
+    border-color: transparent;
+}
+
+
